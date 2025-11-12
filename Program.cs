@@ -4,43 +4,81 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        int numBottles = 5;
+        var numBottles = 10;
         int counter = 0;
-        string bottles = "bottles";
 
         Console.WriteLine($"Welcome to the {numBottles} Bottles of Learning To Code Application!");
         Console.WriteLine();
 
-        while (counter < numBottles)
+        while (counter <= numBottles)
         {
-            Console.WriteLine($"{numBottles - counter} {bottles} of beer on the wall, {numBottles - counter} {bottles} of beer.");
-            counter++;
-            bottles = (numBottles - counter != 1) ? "bottles" : "bottle";
-            if (numBottles - counter > 0)
+            //make this logic into one or more methods:
+            if (numBottles - counter > 1)
             {
-                Console.WriteLine($"Take one down and pass it around, {numBottles - counter} {bottles} of beer on the wall.");
-                Console.WriteLine();
-                
+                PrintVerseMultipleBottles(numBottles, counter);
+            }
+            else if (numBottles - counter == 1)
+            {
+                PrintVerseOneBottle(numBottles, counter);
             }
             else
             {
-                Console.WriteLine($"Take one down and pass it around, no more {bottles} of beer on the wall.");
-                Console.WriteLine();
-                Console.WriteLine($"No more {bottles} of beer on the wall, no more {bottles} of beer.");
-                Console.WriteLine("Go to the store, buy some more.");
-                Console.WriteLine("How many bottles of beer do you want to buy? [Enter 0 to quit]");
-                numBottles = int.Parse(Console.ReadLine());
-                counter = 0;
-                if (numBottles > 0)
+                PrintVerseNoBottles();
+                numBottles = GetMoreBeer();
+
+                if (numBottles != 0)
                 {
-                    Console.WriteLine($"Purchased {numBottles} {bottles} of beer.");
+                    Console.WriteLine($"Purchased {numBottles} {(numBottles == 1 ? "bottle" : "bottles")} of beer");
+                    counter = -1;
                 }
-        
-                //Console.WriteLine($"{numBottles} {bottles} of beer on the wall.");
-                Console.WriteLine("Press any key to continue");
-                Console.ReadKey();
             }
-            
+            Console.WriteLine();
+            counter++;
         }
+
+        Console.WriteLine($"Thank you for using the {numBottles} bottles of learning to code application!\nPlease press any key to continue");
+        Console.ReadKey();
+    }
+
+    public static void PrintVerseMultipleBottles(int numBottles, int counter)
+    {
+        Console.WriteLine($"{numBottles - counter} bottles of beer on the wall, {numBottles - counter} bottles of beer.");
+        var nextCount = numBottles - (counter + 1);
+        var word = nextCount == 1 ? "bottle" : "bottles";
+        Console.WriteLine($"Take one down, pass it around, {nextCount} {word} of beer on the wall.");
+    }
+
+    public static void PrintVerseOneBottle(int numBottles, int counter)
+    {
+        Console.WriteLine($"{numBottles - counter} bottle of beer on the wall, {numBottles - counter} bottle of beer.");
+        Console.WriteLine($"Take one down, pass it around, no more bottles of beer on the wall.");
+    }
+    
+    public static void PrintVerseNoBottles()
+    {
+        Console.WriteLine("No more bottles of beer on the wall, no more bottles of beer.");
+        Console.WriteLine($"Go to the store, buy some more.");
+    }
+
+    public static int GetMoreBeer()
+    {
+        Console.WriteLine("How many bottles of beer do you want to buy [1-24] [Enter 0 to quit]?");
+        int amount;
+        bool validAmount;
+
+        do
+        {
+            validAmount = int.TryParse(Console.ReadLine(), out amount);
+            if (!validAmount)
+            {
+                Console.WriteLine("Invalid input. Enter a number");
+            }
+            if (amount < 0 || amount > 24)
+            {
+                validAmount = false;
+                Console.WriteLine("Invalid input. Enter value between 1 and 24, or 0 to quit");
+            }
+        } while (!validAmount);
+        return amount;
     }
 }
