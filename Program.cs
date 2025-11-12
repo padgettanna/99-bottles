@@ -13,8 +13,16 @@ public class Program
             Console.WriteLine($"{numBottles - counter} {bottles} of beer on the wall, {numBottles - counter} {bottles} of beer.");
             counter++;
             bottles = (numBottles - counter != 1) ? "bottles" : "bottle";
-            Console.WriteLine($"Take one down and pass it around, {numBottles - counter} {bottles} of beer on the wall.");
-            Console.WriteLine();
+            if (numBottles - counter == 0)
+            {
+                Console.WriteLine($"Take one down and pass it around, no more {bottles} of beer on the wall.");
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine($"Take one down and pass it around, {numBottles - counter} {bottles} of beer on the wall.");
+                Console.WriteLine();
+            }
         }
 
         Console.WriteLine($"No more {bottles} of beer on the wall, no more {bottles} of beer.");
